@@ -53,7 +53,7 @@ function HomeScreen({navigation}) {
  );
 }
 
-//account 2
+//account 2 facundolobo
 function DetailsScreen({navigation}) {
  return (
   <SafeAreaView style={styles.conteiner}>
