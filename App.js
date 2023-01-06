@@ -52,6 +52,8 @@ function HomeScreen({navigation}) {
 
  );
 }
+
+//account
 function DetailsScreen({navigation}) {
  return (
   <SafeAreaView style={styles.conteiner}>
