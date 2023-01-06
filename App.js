@@ -53,7 +53,7 @@ function HomeScreen({navigation}) {
  );
 }
 
-//account
+//account 2
 function DetailsScreen({navigation}) {
  return (
   <SafeAreaView style={styles.conteiner}>
