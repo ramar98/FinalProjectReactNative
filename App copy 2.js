@@ -1,17 +1,16 @@
 // import * as React from 'react';
 
-import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity, FlatList,RefreshControl } from 'react-native';
+import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useEffect, useState } from 'react';
-import LocalStorage from './src/localStorage';
+import { useState } from 'react';
+// import { useForm } from './src/hooks/useForm';
 
-
-//login
 function HomeScreen({navigation}) {
+
 
   const [name, onChangeText] = useState("muh.nurali43@gmail.com");
   const [password, onChangePass] = useState("12345678");
@@ -30,7 +29,7 @@ function HomeScreen({navigation}) {
 
 
   }
-
+  
   const peticion =()=>{
   
     // const result = validacion()
@@ -50,17 +49,11 @@ function HomeScreen({navigation}) {
         }
       }).then(res => res.json())
       .catch(error => console.error('Error:', error))
-      .then(response => {
-        // console.log('Success:', response)
-        // setToken('Bearer '+response.token)
-        let token = 'Bearer '+response.token
-
-        console.log('TOKEN SET==',token)
-        LocalStorage.setItem('token',token)
-
-      });
-       navigation.navigate('ListaTarea')
-      
+      .then(response => console.log('Success:', response));
+    // }else
+    // {
+    //   console.log('errores')
+    // }
   }
 
  return (
@@ -246,200 +239,7 @@ function GetStarted({navigation}) {
     </SafeAreaView>
   );
  }
-// ListaTarea
-function ListaTareaScreen({navigation}) {
-
-const [tareas, setTareas] = useState([])
-//postman
-
-const peticion = async() => {
-  let myHeaders = new Headers();
-  let token = await LocalStorage.getItem('token')
-  console.log('TOKEN Get===',token )
-  // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JjMGVmMzQ1ODg2ODAwMTQ3YmY1MzIiLCJpYXQiOjE2NzMzNjcyMDR9.QEDqd6O-S1GyhmoCIOTGWVRUMWj11wqnleLffon5HwI");
-  myHeaders.append("Authorization", token);
-  myHeaders.append("Content-Type", "application/json");
-  
-  let requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
-  
-  fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
-    .then(response => response.json())
-    .then(({data}) => {
-      console.log('Peticion =',data)
-      setTareas(data)
-
-    })
-    .catch(error => console.log('error', error));
-
-}
-useEffect(() => {
-  peticion()
-}, [])
-
-  
-
-
-
-
-const renderItem = ({item}) => {
-  console.log('renderItem -> tareas = ',item)
-  // console.log('renderItem -> tareas.description = ',tareas.description)
-  console.log('lista.description =', item.description)
-
-  return (
-
-    <View >
-      <View >
-      <TouchableOpacity style={styles.butonTarea}>
-                <Text 
-                style={{textAlign:'center', margin:5, color:'black', fontSize:20}} 
-                // onPress={() => peticion()}
-                  >{item.description}
-                </Text>
-        </TouchableOpacity>
-      {/* <Text >{item.description}</Text> */}
-
-      </View>
-      
-    </View>
-  );
-};
-
-  return (
-    
-    <SafeAreaView style={styles.conteiner}>
-      <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
-      <View >
-      <Image
-            source={require('./src/assets/elipse.png')}
-            style={styles.circleImage}
-        />
-
-        {/* lista de tareas  */}
-        {/* <FlatList
-          // style={{ flex: 1 }}
-          data={tareas}
-          renderItem={renderItem}
-          // keyExtractor={ item => item.description}
-          // refreshControl={
-          //   <RefreshControl refreshing={loading} onRefresh={peticion} />
-          // }
-        /> */}
-
-        {/* lista de tareas ejemplo  */}
-        
-        <Text style={styles.textoWO2 }>Tu Lista de Tarea</Text>
-        <FlatList
-          // style={{ flex: 1 }}
-          data={tareas}
-          renderItem={renderItem}
-          keyExtractor={ item => item._id}
-          // refreshControl={
-          //   <RefreshControl refreshing={loading} onRefresh={peticion} />
-          // }
-        />
-        <TouchableOpacity style={styles.buton}>
-                <Text 
-                style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                onPress={() => peticion()}
-                  >Lista Tareas
-                </Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.buton}>
-        <Text 
-          style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-          onPress={() => navigation.navigate('NuevaTarea')}
-            >Nueva tarea
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buton}>
-        <Text 
-          style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-          onPress={() => {
-            navigation.navigate('ListaTarea')
-          }}
-            >Atras
-          </Text>
-        </TouchableOpacity>
-
-      </View>
-    </SafeAreaView>
-  );
- }
-
- //Crear Tarea
- function NuevaTareaScreen({navigation}) {
-  
-  const [textoTarea, setText] = useState('')
-  const peticion = async()=> {
-   
-    let token = await LocalStorage.getItem('token')
-    let myHeaders = new Headers();
-
-    console.log('TOKEN Get===',token )
-    myHeaders.append("Authorization", token);
-    myHeaders.append("Content-Type", "application/json");
-
-    let raw = JSON.stringify({
-      "description": textoTarea
-    });
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  }
-  return (
-    
-    <SafeAreaView style={styles.conteiner}>
-      <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
-      <View >
-      <Image
-            source={require('./src/assets/elipse.png')}
-            style={styles.circleImage}
-        />
-      <TextInput
-            placeholder="             Agregar Tarea"
-            placeholderTextColor={'#585858'}
-            style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
-            
-            onChangeText={setText}
-            value={textoTarea} 
-            />
-        <TouchableOpacity style={styles.buton}>
-                <Text 
-                style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                onPress={() => peticion()}
-                  >Crear Tarea
-                </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buton}>
-                <Text 
-                style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                onPress={() => navigation.goBack()}
-                  >Atras
-                </Text>
-        </TouchableOpacity>
-  
-      </View>
-    </SafeAreaView>
-  );
- }
-
-
+// Get Started
 
 //const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -451,8 +251,6 @@ function App() {
     <Stack.Screen name="GetStarted" component={GetStarted} options={{headerShown: false}} />
     <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
     <Stack.Screen name="Details" component={DetailsScreen} options={{headerShown: false}}/>
-    <Stack.Screen name="ListaTarea" component={ListaTareaScreen} options={{headerShown: false}}/>
-    <Stack.Screen name="NuevaTarea" component={NuevaTareaScreen} options={{headerShown: false}}/>
   </Stack.Navigator>
 </NavigationContainer>
  );
@@ -532,14 +330,6 @@ const styles = StyleSheet.create({
     height:60,
     borderRadius:25,
     backgroundColor:'#5dc1b9',
-    alignSelf: 'center',
-  },
-  butonTarea:{
-    marginTop:30,
-    width:400,
-    height:40,
-    borderRadius:25,
-    backgroundColor:'#f0394d',
     alignSelf: 'center',
   },
 });
