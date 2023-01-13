@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import LocalStorage from './src/localStorage';
 
 
-// login
+//login
 function HomeScreen({navigation}) {
 
   const [name, onChangeText] = useState("muh.nurali43@gmail.com");
@@ -23,7 +23,7 @@ function HomeScreen({navigation}) {
     // Contraseña mayor a 7 caracteres
     // Que el nombre no acepte caracteres especiales
     if (name = ''){
-      //console.log('name = null')
+      console.log('name = null')
       onChangeError1(true)
       return 0
     }
@@ -35,7 +35,7 @@ function HomeScreen({navigation}) {
   
     // const result = validacion()
     // if (result != 0){
-      //console.log(name, password)
+      console.log(name, password)
       let url = 'https://todolist-node-production.up.railway.app/user/login';
       let data = {
         email: name,
@@ -53,17 +53,17 @@ function HomeScreen({navigation}) {
       .then(response => {
         //limpiar localStorage
         // LocalStorage.removeItem('token')
-        // //console.log('Success:', response)
+        // console.log('Success:', response)
         // setToken('Bearer '+response.token)
         let token = 'Bearer '+response.token
 
-        //console.log('TOKEN SET==',token)
+        console.log('TOKEN SET==',token)
         LocalStorage.setItem('token',token)
 
 
         //PETCICION PARA TRAER LAS TAREAS
           let myHeaders = new Headers();
-          //console.log('TOKEN Get===',token )
+          console.log('TOKEN Get===',token )
           // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JjMGVmMzQ1ODg2ODAwMTQ3YmY1MzIiLCJpYXQiOjE2NzMzNjcyMDR9.QEDqd6O-S1GyhmoCIOTGWVRUMWj11wqnleLffon5HwI");
           myHeaders.append("Authorization", token);
           myHeaders.append("Content-Type", "application/json");
@@ -77,8 +77,9 @@ function HomeScreen({navigation}) {
           fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
             .then(response => response.json())
             .then(({data}) => {
-              //console.log('Peticion =',data)
+              console.log('Peticion =',data)
               //guardar en el LocalStorage
+              
               LocalStorage.setItem('Tareas',data)
             })
             .catch(error => console.log('error', error));
@@ -148,7 +149,7 @@ function HomeScreen({navigation}) {
  );
 }
 
-// Register
+
 function DetailsScreen({navigation}) {
  //Logica del componente
  //Post register
@@ -271,18 +272,17 @@ function GetStarted({navigation}) {
     </SafeAreaView>
   );
  }
-
 // ListaTarea
 function ListaTareaScreen({navigation}) {
 
 const [tareas, setTareas] = useState([])
+//postman
 
-//Peticion para Traer las tareas
-const peticionTareas=()=>{
-  
-  //PETCICION PARA TRAER LAS TAREAS
+const peticion = async() => {
+
   let myHeaders = new Headers();
-  //console.log('TOKEN Get===',token )
+  let token = await LocalStorage.getItem('token')
+  console.log('TOKEN Get===',token )
   // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JjMGVmMzQ1ODg2ODAwMTQ3YmY1MzIiLCJpYXQiOjE2NzMzNjcyMDR9.QEDqd6O-S1GyhmoCIOTGWVRUMWj11wqnleLffon5HwI");
   myHeaders.append("Authorization", token);
   myHeaders.append("Content-Type", "application/json");
@@ -296,62 +296,35 @@ const peticionTareas=()=>{
   fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
     .then(response => response.json())
     .then(({data}) => {
-      //console.log('Peticion =',data)
+      console.log('Peticion =',data)
       //guardar en el LocalStorage
-      LocalStorage.setItem('Tareas',data)
+      
+      // LocalStorage.setItem('Tareas',data)
+      setTareas(data)
+      
+
     })
     .catch(error => console.log('error', error));
-}
 
-
-//postman
-const peticion = async() => {
-  let TareasLocal = await LocalStorage.getItem('Tareas')
-  TareasLocal = JSON.parse(TareasLocal)
-  //console.log('Tareas Peticion Listar',TareasLocal)
-  // tareas = TareasLocal
-  // setTareas(JSON.parse(await LocalStorage.getItem('Tareas')))
-  setTareas(TareasLocal)
 }
-useEffect (() => {
+useEffect(() => {
   peticion()
 }, [])
 
+  
 
 
-//Eliminar una tarea
-const PeticionEliminar = async(_idTarea)=>{
-  let token = await LocalStorage.getItem('token')
-  let myHeaders = new Headers();
 
-myHeaders.append("Authorization", token);
-myHeaders.append("Content-Type", "application/json");
-
-let requestOptions = {
-  method: 'DELETE',
-  headers: myHeaders,
-  redirect: 'follow'
-};
-
-fetch("https://todolist-node-production.up.railway.app/task/"+_idTarea, requestOptions)
-  .then(response => response.text())
-  .then(result => {
-    //console.log('Eliminado de tarea')
-    //console.log('_idTarea',_idTarea)
-    peticionTareas()
-  })
-  .catch(error => console.log('error', error));
-}
 
 const renderItem = ({item}) => {
-  //console.log('renderItem -> tareas = ',item)
-  // //console.log('renderItem -> tareas.description = ',tareas.description)
-  //console.log('lista.description =', item.description)
+  console.log('renderItem -> tareas = ',item)
+  // console.log('renderItem -> tareas.description = ',tareas.description)
+  console.log('lista.description =', item.description)
 
   return (
 
     <View >
-      <View style={{flexDirection:'row'}}>
+      <View >
       <TouchableOpacity style={styles.butonTarea}>
                 <Text 
                 style={{textAlign:'center', margin:5, color:'black', fontSize:20}} 
@@ -367,18 +340,6 @@ const renderItem = ({item}) => {
                   navigation.navigate('ModificarTarea')
                  }}
                   >{item.description}
-                </Text>
-        </TouchableOpacity>
-        <TouchableOpacity  style={styles.butonTareaEliminar}>
-                <Text 
-                  style={{textAlign:'center', margin:5, color:'black', fontSize:20}}
-                  onPress={()=> {
-                    PeticionEliminar(item._id)
-                    peticion()
-                  }
-                  }  
-                >
-                  Eliminar
                 </Text>
         </TouchableOpacity>
       {/* <Text >{item.description}</Text> */}
@@ -453,8 +414,8 @@ const renderItem = ({item}) => {
   );
  }
 
-// Crear Tarea
-function NuevaTareaScreen({navigation}) {
+ //Crear Tarea
+ function NuevaTareaScreen({navigation}) {
   
   const [textoTarea, setText] = useState('')
   const peticion = async()=> {
@@ -462,7 +423,7 @@ function NuevaTareaScreen({navigation}) {
     let token = await LocalStorage.getItem('token')
     let myHeaders = new Headers();
 
-    //console.log('TOKEN Get===',token )
+    console.log('TOKEN Get===',token )
     myHeaders.append("Authorization", token);
     myHeaders.append("Content-Type", "application/json");
 
@@ -479,10 +440,7 @@ function NuevaTareaScreen({navigation}) {
 
     fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
       .then(response => response.text())
-      .then(result => {
-        //console.log(result)
-        
-      })
+      .then(result => console.log(result))
       .catch(error => console.log('error', error));
   }
   return (
@@ -520,15 +478,15 @@ function NuevaTareaScreen({navigation}) {
       </View>
     </SafeAreaView>
   );
-}
+ }
 
-// Modificar Tarea
+ //Modificar Tarea
 function ModificarTareaScreen({navigation}) {
   const [textoTarea, setText] = useState()
     
     const obtenerTarea = async ()=>{
        let DTarea = await LocalStorage.getItem('descripcionTarea')
-       //console.log('Modificar Tarea DTarea=',DTarea)
+       console.log('Modificar Tarea DTarea=',DTarea)
        setText(DTarea)
        
       }
@@ -539,23 +497,23 @@ function ModificarTareaScreen({navigation}) {
     }, [])
       
       
-      // //console.log('Modificar Tarea descripcionTarea',descripcionTarea)
+      // console.log('Modificar Tarea descripcionTarea',descripcionTarea)
    
    const peticion = async()=> {
      
     let idTarea         = await LocalStorage.getItem('idTarea')
     let token            = await LocalStorage.getItem('token')
     
-    let myHeaders = new Headers();
+    var myHeaders = new Headers();
     myHeaders.append("Authorization", token);
     myHeaders.append("Content-Type", "application/json");
     
-    let raw = JSON.stringify({
+    var raw = JSON.stringify({
       "description": textoTarea
       // "completed": true
     });
     
-    let requestOptions = {
+    var requestOptions = {
       method: 'PUT',
       headers: myHeaders,
       body: raw,
@@ -565,31 +523,7 @@ function ModificarTareaScreen({navigation}) {
 
     fetch("https://todolist-node-production.up.railway.app/task/"+idTarea, requestOptions)
       .then(response => response.text())
-      .then(result => {
-        //console.log(result)
-        
-      //PETCICION PARA TRAER LAS TAREAS
-      let myHeaders = new Headers();
-      //console.log('TOKEN Get===',token )
-      // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JjMGVmMzQ1ODg2ODAwMTQ3YmY1MzIiLCJpYXQiOjE2NzMzNjcyMDR9.QEDqd6O-S1GyhmoCIOTGWVRUMWj11wqnleLffon5HwI");
-      myHeaders.append("Authorization", token);
-      myHeaders.append("Content-Type", "application/json");
-      
-      let requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-      };
-      
-      fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
-        .then(response => response.json())
-        .then(({data}) => {
-          console.log('Peticion Modificacion=',data)
-          //guardar en el LocalStorage
-          LocalStorage.setItem('Tareas',data)
-        })
-        .catch(error => console.log('error', error));
-      })
+      .then(result => console.log(result))
       .catch(error => console.log('error', error));
   }
   return (
@@ -729,18 +663,10 @@ const styles = StyleSheet.create({
   },
   butonTarea:{
     marginTop:30,
-    width:300,
+    width:400,
     height:40,
     borderRadius:25,
     backgroundColor:'#f0394d',
-    alignSelf: 'center',
-  },
-  butonTareaEliminar:{
-    marginTop:30,
-    width:100,
-    height:40,
-    borderRadius:25,
-    // backgroundColor:'#f0394d',
     alignSelf: 'center',
   },
 });

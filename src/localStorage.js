@@ -6,7 +6,7 @@ class LocalStorage {
   }
 
   static setItem(key, value) {
-    console.log('setItem',key ,' --- ', value)
+    // console.log('setItem',key ,' --- ', value)
     let jsonValue = value;
     if (typeof value !== 'string') {
       jsonValue = JSON.stringify(value);
