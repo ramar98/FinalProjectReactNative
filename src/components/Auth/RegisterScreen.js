@@ -49,7 +49,7 @@ function RegisterScreen({navigation}) {
      <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
      <View >
      <Image
-               source={require('./src/assets/elipse.png')}
+               source={require('../../assets/elipse.png')}
                style={styles.circleImage}
            />
         <Text style={styles.textoWO2 }>Welcome Onboard!</Text>
