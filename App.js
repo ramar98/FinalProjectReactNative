@@ -1,6 +1,6 @@
 // import * as React from 'react';
 
-import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity, FlatList,RefreshControl } from 'react-native';
+import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity, FlatList,RefreshControl, KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -18,19 +18,7 @@ function HomeScreen({navigation}) {
   const [error1, onChangeError1] = useState(false);
   // const [number, onChangeNumber] = React.useState(null);
   
-  const validacion = ()=>{
-    // Que no acepte campos vacios
-    // Contraseña mayor a 7 caracteres
-    // Que el nombre no acepte caracteres especiales
-    if (name = ''){
-      //console.log('name = null')
-      onChangeError1(true)
-      return 0
-    }
-
-
-  }
-
+//Falta la validacion
   const peticion =()=>{
   
     // const result = validacion()
@@ -60,29 +48,6 @@ function HomeScreen({navigation}) {
         //console.log('TOKEN SET==',token)
         LocalStorage.setItem('token',token)
 
-
-        //PETCICION PARA TRAER LAS TAREAS
-          let myHeaders = new Headers();
-          //console.log('TOKEN Get===',token )
-          // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JjMGVmMzQ1ODg2ODAwMTQ3YmY1MzIiLCJpYXQiOjE2NzMzNjcyMDR9.QEDqd6O-S1GyhmoCIOTGWVRUMWj11wqnleLffon5HwI");
-          myHeaders.append("Authorization", token);
-          myHeaders.append("Content-Type", "application/json");
-          
-          let requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-          };
-          
-          fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
-            .then(response => response.json())
-            .then(({data}) => {
-              //console.log('Peticion =',data)
-              //guardar en el LocalStorage
-              LocalStorage.setItem('Tareas',data)
-            })
-            .catch(error => console.log('error', error));
-        
       });
        navigation.navigate('ListaTarea')
       
@@ -278,75 +243,61 @@ function ListaTareaScreen({navigation}) {
 const [tareas, setTareas] = useState([])
 
 //Peticion para Traer las tareas
-const peticionTareas=()=>{
+const peticion = async()=>{
   
-  //PETCICION PARA TRAER LAS TAREAS
-  let myHeaders = new Headers();
-  //console.log('TOKEN Get===',token )
-  // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JjMGVmMzQ1ODg2ODAwMTQ3YmY1MzIiLCJpYXQiOjE2NzMzNjcyMDR9.QEDqd6O-S1GyhmoCIOTGWVRUMWj11wqnleLffon5HwI");
-  myHeaders.append("Authorization", token);
-  myHeaders.append("Content-Type", "application/json");
   
-  let requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-  };
-  
-  fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
-    .then(response => response.json())
-    .then(({data}) => {
-      //console.log('Peticion =',data)
-      //guardar en el LocalStorage
-      LocalStorage.setItem('Tareas',data)
-    })
-    .catch(error => console.log('error', error));
+        //PETCICION PARA TRAER LAS TAREAS
+        let token = await LocalStorage.getItem('token')
+        let myHeaders = new Headers();
+        //console.log('TOKEN Get===',token )
+        // myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2JjMGVmMzQ1ODg2ODAwMTQ3YmY1MzIiLCJpYXQiOjE2NzMzNjcyMDR9.QEDqd6O-S1GyhmoCIOTGWVRUMWj11wqnleLffon5HwI");
+        myHeaders.append("Authorization", token);
+        myHeaders.append("Content-Type", "application/json");
+        
+        let requestOptions = {
+          method: 'GET',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+        
+        fetch("https://todolist-node-production.up.railway.app/task", requestOptions)
+          .then(response => response.json())
+          .then(({data}) => {
+            //console.log('Peticion =',data)
+            //guardar en el LocalStorage
+            // LocalStorage.setItem('Tareas',data)
+            setTareas(data)
+          })
+          .catch(error => console.log('error', error));
+
 }
-
-
-//postman
-const peticion = async() => {
-  let TareasLocal = await LocalStorage.getItem('Tareas')
-  TareasLocal = JSON.parse(TareasLocal)
-  //console.log('Tareas Peticion Listar',TareasLocal)
-  // tareas = TareasLocal
-  // setTareas(JSON.parse(await LocalStorage.getItem('Tareas')))
-  setTareas(TareasLocal)
-}
-useEffect (() => {
-  peticion()
-}, [])
-
-
 
 //Eliminar una tarea
 const PeticionEliminar = async(_idTarea)=>{
   let token = await LocalStorage.getItem('token')
   let myHeaders = new Headers();
 
-myHeaders.append("Authorization", token);
-myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", token);
+  myHeaders.append("Content-Type", "application/json");
 
-let requestOptions = {
-  method: 'DELETE',
-  headers: myHeaders,
-  redirect: 'follow'
-};
+  let requestOptions = {
+    method: 'DELETE',
+    headers: myHeaders,
+    redirect: 'follow'
+  };
 
-fetch("https://todolist-node-production.up.railway.app/task/"+_idTarea, requestOptions)
-  .then(response => response.text())
-  .then(result => {
-    //console.log('Eliminado de tarea')
-    //console.log('_idTarea',_idTarea)
-    peticionTareas()
-  })
-  .catch(error => console.log('error', error));
-}
+  fetch("https://todolist-node-production.up.railway.app/task/"+_idTarea, requestOptions)
+    .then(response => response.json())
+    .then(result => {
+      //console.log('Eliminado de tarea')
+      //console.log('_idTarea',_idTarea)
+      console.log('Se elimino todo bien')
+      peticion()
+    })
+    .catch(error => console.log('error', error));
+  }
 
 const renderItem = ({item}) => {
-  //console.log('renderItem -> tareas = ',item)
-  // //console.log('renderItem -> tareas.description = ',tareas.description)
-  //console.log('lista.description =', item.description)
 
   return (
 
@@ -374,7 +325,7 @@ const renderItem = ({item}) => {
                   style={{textAlign:'center', margin:5, color:'black', fontSize:20}}
                   onPress={()=> {
                     PeticionEliminar(item._id)
-                    peticion()
+                 
                   }
                   }  
                 >
@@ -399,22 +350,13 @@ const renderItem = ({item}) => {
             style={styles.circleImage}
         />
 
-        {/* lista de tareas  */}
-        {/* <FlatList
-          // style={{ flex: 1 }}
-          data={tareas}
-          renderItem={renderItem}
-          // keyExtractor={ item => item.description}
-          // refreshControl={
-          //   <RefreshControl refreshing={loading} onRefresh={peticion} />
-          // }
-        /> */}
-
         {/* lista de tareas ejemplo  */}
         
         <Text style={styles.textoWO2 }>Tu Lista de Tarea</Text>
+        <View style={{flex:1}}>
+
         <FlatList
-          // style={{ flex: 1 }}
+          // style={{ flex: 2 }}
           data={tareas}
           renderItem={renderItem}
           keyExtractor={ item => item._id}
@@ -422,31 +364,35 @@ const renderItem = ({item}) => {
           //   <RefreshControl refreshing={loading} onRefresh={peticion} />
           // }
         />
-        <TouchableOpacity style={styles.buton}>
-                <Text 
-                style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                onPress={() => peticion()}
-                  >Lista Tareas
-                </Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.buton}>
-        <Text 
-          style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-          onPress={() => navigation.navigate('NuevaTarea')}
-            >Nueva tarea
-          </Text>
-        </TouchableOpacity>
+        </View>
+        <View style={{flex:1}}>
 
-        <TouchableOpacity style={styles.buton}>
-        <Text 
-          style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-          onPress={() => {
-            navigation.navigate('ListaTarea')
-          }}
-            >Atras
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.buton}>
+                  <Text 
+                  style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
+                  onPress={() => peticion()}
+                    >Lista Tareas
+                  </Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.buton}>
+          <Text 
+            style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
+            onPress={() => navigation.navigate('NuevaTarea')}
+              >Nueva tarea
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buton}>
+          <Text 
+            style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
+            onPress={() => {
+              navigation.navigate('ListaTarea')
+            }}
+              >Atras
+            </Text>
+          </TouchableOpacity>
+          </View>
 
       </View>
     </SafeAreaView>
@@ -481,6 +427,7 @@ function NuevaTareaScreen({navigation}) {
       .then(response => response.text())
       .then(result => {
         //console.log(result)
+        navigation.goBack()
         
       })
       .catch(error => console.log('error', error));
@@ -505,7 +452,10 @@ function NuevaTareaScreen({navigation}) {
         <TouchableOpacity style={styles.buton}>
                 <Text 
                 style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                onPress={() => peticion()}
+                onPress={() =>{
+                  peticion()
+                  
+                } }
                   >Crear Tarea
                 </Text>
         </TouchableOpacity>
@@ -615,6 +565,7 @@ function ModificarTareaScreen({navigation}) {
                 onPress={() => {
                   obtenerTarea()
                   peticion()
+                  navigation.goBack()
                 }
               }
                   >Modificar Tarea
