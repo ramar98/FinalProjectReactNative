@@ -116,25 +116,40 @@ function HomeScreen({navigation}) {
 // Register
 function DetailsScreen({navigation}) {
  //Logica del componente
+ const [name, onChangeName] = useState("Guildo");
+ const [email, onChangeEmail] = useState("Guildo@gmail.com");
+ const [password, onChangePass] = useState("12345678");
+ const [password2, onChangePass2] = useState("12345678");
+ const [edad, onChangeEdad] = useState('27');
+
  //Post register
  const peticion =()=>{
-    let url = 'https://api-nodejs-todolist.herokuapp.com/user/register';
-    let data = {
-      name: "Muhammad Nur Ali",
-      email: "muh.nurali43@gmail.com",
-      password: "12345678",
-      age: 20
-    };
+    let url = 'https://todolist-node-production.up.railway.app/user/register';
     
-    fetch(url, {
-      method: 'POST', // or 'PUT'
-      body: JSON.stringify(data), // data can be `string` or {object}!
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response));
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "name": name,
+      "email": email,
+      "password": password,
+      "age": parseInt(edad)
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result)
+        console.log('registrado',name)
+      })
+      .catch(error => console.log('error', error));
  }
 
 
@@ -154,35 +169,44 @@ function DetailsScreen({navigation}) {
     
         <TextInput
             placeholder="             Enter your full name"
-            value='Muhammad Nur Ali'
+            
             placeholderTextColor={'#585858'}
             style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
-            />
+            
+            onChangeText={onChangeName}
+            value={name}
+           />
         <TextInput
             placeholder="             Enter mail"
-            
-            value='muh.nurali43@gmail.com'
             placeholderTextColor={'#585858'}
-
             style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+            
+            onChangeText={onChangeEmail}
+            value={email}
             />
         <TextInput
             placeholder="             Enter password"
-            value='123456789'
             placeholderTextColor={'#585858'}
             style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+            
+            onChangeText={onChangePass}
+            value={password}
             />
         <TextInput
             placeholder="             Confirm password"
-            value='123456789'
             placeholderTextColor={'#585858'}
             style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+            
+            onChangeText={onChangePass2}
+            value={password2}
             />
         <TextInput
             placeholder="             Edad"
-            value='20'
             placeholderTextColor={'#585858'}
             style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+            
+            onChangeText={onChangeEdad}
+            value={edad}
             />
 
      <TouchableOpacity style={styles.buton}>
@@ -235,7 +259,7 @@ function GetStarted({navigation}) {
       </View>
     </SafeAreaView>
   );
- }
+}
 
 // ListaTarea
 function ListaTareaScreen({navigation}) {
@@ -302,7 +326,7 @@ const renderItem = ({item}) => {
   return (
 
     <View >
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'row'}} >
       <TouchableOpacity style={styles.butonTarea}>
                 <Text 
                 style={{textAlign:'center', margin:5, color:'black', fontSize:20}} 
@@ -353,19 +377,21 @@ const renderItem = ({item}) => {
         {/* lista de tareas ejemplo  */}
         
         <Text style={styles.textoWO2 }>Tu Lista de Tarea</Text>
-        <View style={{flex:1}}>
+        <View 
+          style={{height:300}}
+        >
 
-        <FlatList
-          // style={{ flex: 2 }}
-          data={tareas}
-          renderItem={renderItem}
-          keyExtractor={ item => item._id}
-          // refreshControl={
-          //   <RefreshControl refreshing={loading} onRefresh={peticion} />
-          // }
-        />
+          <FlatList
+            // style={{ flex: 1 }}
+            data={tareas}
+            renderItem={renderItem}
+            keyExtractor={ item => item._id}
+            // refreshControl={
+            //   <RefreshControl refreshing={loading} onRefresh={peticion} />
+            // }
+          />
         </View>
-        <View style={{flex:1}}>
+        <View>
 
           <TouchableOpacity style={styles.buton}>
                   <Text 
@@ -387,7 +413,7 @@ const renderItem = ({item}) => {
           <Text 
             style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
             onPress={() => {
-              navigation.navigate('ListaTarea')
+              navigation.navigate('Home')
             }}
               >Atras
             </Text>
@@ -397,7 +423,7 @@ const renderItem = ({item}) => {
       </View>
     </SafeAreaView>
   );
- }
+}
 
 // Crear Tarea
 function NuevaTareaScreen({navigation}) {
@@ -619,6 +645,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff'
   },
   conteiner:{
+    flexGrow: 1,
     flex:1,
     backgroundColor:'#F2F2F2'
   },
