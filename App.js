@@ -1,5 +1,3 @@
-// import * as React from 'react';
-
 import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity, FlatList,RefreshControl, KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,113 +6,116 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import LocalStorage from './src/localStorage';
-
+import LoginScreen from './src/components/Auth/LoginScreen';
+import GetStarted from './src/components/Home/GetStarted';
+// import RegisterScreen from './src/components/Auth/RegisterScreen';
 
 // login
-function HomeScreen({navigation}) {
+// function LoginScreen({navigation}) {
 
-  const [name, onChangeText] = useState("muh.nurali43@gmail.com");
-  const [password, onChangePass] = useState("12345678");
-  const [error1, onChangeError1] = useState(false);
-  // const [number, onChangeNumber] = React.useState(null);
+//   const [name, onChangeText] = useState("muh.nurali43@gmail.com");
+//   const [password, onChangePass] = useState("12345678");
+//   const [error1, onChangeError1] = useState(false);
+//   // const [number, onChangeNumber] = React.useState(null);
   
-//Falta la validacion
-  const peticion =()=>{
+// //Falta la validacion
+//   const peticion =()=>{
   
-    // const result = validacion()
-    // if (result != 0){
-      //console.log(name, password)
-      let url = 'https://todolist-node-production.up.railway.app/user/login';
-      let data = {
-        email: name,
-        password: password
-      };
+//     // const result = validacion()
+//     // if (result != 0){
+//       //console.log(name, password)
+//       let url = 'https://todolist-node-production.up.railway.app/user/login';
+//       let data = {
+//         email: name,
+//         password: password
+//       };
 
-      fetch(url, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(data), // data can be `string` or {object}!
-        headers:{
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json())
-      .catch(error => console.error('Error:', error))
-      .then(response => {
-        //limpiar localStorage
-        // LocalStorage.removeItem('token')
-        // //console.log('Success:', response)
-        // setToken('Bearer '+response.token)
-        let token = 'Bearer '+response.token
+//       fetch(url, {
+//         method: 'POST', // or 'PUT'
+//         body: JSON.stringify(data), // data can be `string` or {object}!
+//         headers:{
+//           'Content-Type': 'application/json'
+//         }
+//       }).then(res => res.json())
+//       .catch(error => console.error('Error:', error))
+//       .then(response => {
+//         //limpiar localStorage
+//         // LocalStorage.removeItem('token')
+//         // //console.log('Success:', response)
+//         // setToken('Bearer '+response.token)
+//         let token = 'Bearer '+response.token
 
-        //console.log('TOKEN SET==',token)
-        LocalStorage.setItem('token',token)
+//         //console.log('TOKEN SET==',token)
+//         LocalStorage.setItem('token',token)
 
-      });
-       navigation.navigate('ListaTarea')
+//       });
+//        navigation.navigate('ListaTarea')
       
-  }
+//   }
 
- return (
-  <SafeAreaView style={styles.conteiner}>
+//  return (
+//   <SafeAreaView style={styles.conteiner}>
 
-  <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
-  <View >
-  <Image
-            source={require('./src/assets/elipse.png')}
-            style={styles.circleImage}
-        />
-        <Text style={styles.textoWO2 }>Welcome Back!</Text>
+//   <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
+//   <View >
+//   <Image
+//             source={require('./src/assets/elipse.png')}
+//             style={styles.circleImage}
+//         />
+//         <Text style={styles.textoWO2 }>Welcome Back!</Text>
 
-   <View >
-        <Image
-          source={require('./src/assets/login.png')}
-          style={styles.image}
-        />
+//    <View >
+//         <Image
+//           source={require('./src/assets/login.png')}
+//           style={styles.image}
+//         />
         
-        <TextInput
-            placeholder="             Enter your e-mail"
-            placeholderTextColor={'#585858'}
-            style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+//         <TextInput
+//             placeholder="             Enter your e-mail"
+//             placeholderTextColor={'#585858'}
+//             style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
             
-            onChangeText={onChangeText}
-            value={name}
+//             onChangeText={onChangeText}
+//             value={name}
             
-            />
-            {
-              (error1) ? <Text style={{color:'red', alignSelf:'center'}}>error</Text> : null
-            }
+//             />
+//             {
+//               (error1) ? <Text style={{color:'red', alignSelf:'center'}}>error</Text> : null
+//             }
             
         
 
-        <TextInput
-            placeholder="              Confirm password"
-            // value='12345678'
-            placeholderTextColor={'#585858'}
-            style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+//         <TextInput
+//             placeholder="              Confirm password"
+//             // value='12345678'
+//             placeholderTextColor={'#585858'}
+//             style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
             
-            onChangeText={onChangePass}
-            value={password} 
-            />
-    </View>
-    <Text style={styles.textoWOblu } >Forget Password</Text>
+//             onChangeText={onChangePass}
+//             value={password} 
+//             />
+//     </View>
+//     <Text style={styles.textoWOblu } >Forget Password</Text>
     
 
-   <TouchableOpacity style={styles.buton}>
-                <Text 
-                style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                // onPress={() => navigation.navigate('Home')}
-                onPress={() => peticion()}
-                  >Login
-                </Text>
-    </TouchableOpacity>
-   <Text style={{alignSelf:'center',margin:10}}>Don't have an account? <Text onPress={() => navigation.navigate('Details')} style={{color:'#5dc1b9'}}>Sign Up</Text></Text>
- </View>
- </SafeAreaView>
+//    <TouchableOpacity style={styles.buton}>
+//                 <Text 
+//                 style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
+//                 // onPress={() => navigation.navigate('Login')}
+//                 onPress={() => peticion()}
+//                   >Login
+//                 </Text>
+//     </TouchableOpacity>
+//    <Text style={{alignSelf:'center',margin:10}}>Don't have an account? <Text onPress={() => navigation.navigate('Register')} style={{color:'#5dc1b9'}}>Sign Up</Text></Text>
+//  </View>
+//  </SafeAreaView>
 
- );
-}
+//  );
+// }
+
 
 // Register
-function DetailsScreen({navigation}) {
+function RegisterScreen({navigation}) {
  //Logica del componente
  const [name, onChangeName] = useState("Guildo");
  const [email, onChangeEmail] = useState("Guildo@gmail.com");
@@ -212,12 +213,12 @@ function DetailsScreen({navigation}) {
      <TouchableOpacity style={styles.buton}>
                 <Text 
                 style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                // onPress={() => navigation.navigate('Home')}
+                // onPress={() => navigation.navigate('Login')}
                 onPress={() => peticion() }
                   >Register
                 </Text>
     </TouchableOpacity>
-     <Text style={{alignSelf:'center',margin:10}}>Already have an account? <Text style={{color:'#5dc1b9'}}  onPress={() => navigation.navigate('Home')}>Sign In</Text></Text>
+     <Text style={{alignSelf:'center',margin:10}}>Already have an account? <Text style={{color:'#5dc1b9'}}  onPress={() => navigation.navigate('Login')}>Sign In</Text></Text>
 
    </View>
    </SafeAreaView>
@@ -225,41 +226,41 @@ function DetailsScreen({navigation}) {
 }
 
 // Get Started
-function GetStarted({navigation}) {
-  return (
+// function GetStarted({navigation}) {
+//   return (
     
-    <SafeAreaView style={styles.conteiner}>
-      <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
-      <View >
+//     <SafeAreaView style={styles.conteiner}>
+//       <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
+//       <View >
 
-      <Image
-            source={require('./src/assets/elipse.png')}
-            style={styles.circleImage}
-        />
-      <Image
-            source={require('./src/assets/onboarding.png')}
-            style={styles.image}
-        />
+//       <Image
+//             source={require('./src/assets/elipse.png')}
+//             style={styles.circleImage}
+//         />
+//       <Image
+//             source={require('./src/assets/onboarding.png')}
+//             style={styles.image}
+//         />
       
-        <Text style={styles.textoWO }>Gets things done with TODo</Text>
+//         <Text style={styles.textoWO }>Gets things done with TODo</Text>
   
-        <Text style={styles.textoLets2 }>Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit. Magna in
-        Volutpat, tristique lacina ut.
-        Elementum non turpis nullam ipsum</Text>
+//         <Text style={styles.textoLets2 }>Lorem ipsum dolor sit amet,
+//         consectetur adipiscing elit. Magna in
+//         Volutpat, tristique lacina ut.
+//         Elementum non turpis nullam ipsum</Text>
       
-        <TouchableOpacity style={styles.buton}>
-                <Text 
-                style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                onPress={() => navigation.navigate('Home')}
-                  >Get Started
-                </Text>
-        </TouchableOpacity>
+//         <TouchableOpacity style={styles.buton}>
+//                 <Text 
+//                 style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
+//                 onPress={() => navigation.navigate('Login')}
+//                   >Get Started
+//                 </Text>
+//         </TouchableOpacity>
   
-      </View>
-    </SafeAreaView>
-  );
-}
+//       </View>
+//     </SafeAreaView>
+//   );
+// }
 
 // ListaTarea
 function ListaTareaScreen({navigation}) {
@@ -295,6 +296,19 @@ const peticion = async()=>{
           .catch(error => console.log('error', error));
 
 }
+// useEffect(() => {
+//   peticion()
+
+// }, [])
+
+let focusListener = null;
+
+focusListener = navigation.addListener('focus', () => {
+
+    peticion()
+
+   });
+
 
 //Eliminar una tarea
 const PeticionEliminar = async(_idTarea)=>{
@@ -413,7 +427,7 @@ const renderItem = ({item}) => {
           <Text 
             style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
             onPress={() => {
-              navigation.navigate('Home')
+              navigation.navigate('Login')
             }}
               >Atras
             </Text>
@@ -618,8 +632,8 @@ function App() {
   <NavigationContainer>
   <Stack.Navigator>
     <Stack.Screen name="GetStarted" component={GetStarted} options={{headerShown: false}} />
-    <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
-    <Stack.Screen name="Details" component={DetailsScreen} options={{headerShown: false}}/>
+    <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+    <Stack.Screen name="Register" component={RegisterScreen} options={{headerShown: false}}/>
     <Stack.Screen name="ListaTarea" component={ListaTareaScreen} options={{headerShown: false}}/>
     <Stack.Screen name="NuevaTarea" component={NuevaTareaScreen} options={{headerShown: false}}/>
     <Stack.Screen name="ModificarTarea" component={ModificarTareaScreen} options={{headerShown: false}}/>
