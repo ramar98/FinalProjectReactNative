@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState } from 'react';
 import styles from '../../styles/styles'; //Estilos
 import LocalStorage from '../../localStorage';
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 function ModificarTareaScreen({navigation}) {
     const [nombreTarea, setNombreTarea]         = useState()
@@ -34,6 +35,12 @@ function ModificarTareaScreen({navigation}) {
      
      const peticion = async()=> {
        
+      showMessage({
+        message: "Modificando",
+        // type: "info",
+        type: "info",
+
+      }); 
       let idTarea         = await LocalStorage.getItem('idTarea')
       let token            = await LocalStorage.getItem('token')
       
@@ -58,7 +65,13 @@ function ModificarTareaScreen({navigation}) {
         .then(response => response.text('descripcionTarea'))
         .then(result => {
           //console.log(result)
-          LocalStorage.removeItem('') 
+          LocalStorage.removeItem('')
+          showMessage({
+            message: "Modificada",
+            // type: "info",
+            type: "success",
+    
+          }); 
           navigation.goBack()  
         }  
         )
@@ -80,6 +93,8 @@ function ModificarTareaScreen({navigation}) {
       
       <SafeAreaView style={styles.conteiner}>
         <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
+        <FlashMessage position="center" /> 
+
         <View >
         <Image
               source={require('../../assets/elipse.png')}

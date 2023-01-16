@@ -1,18 +1,26 @@
-import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity, FlatList,RefreshControl, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Button, Image, TextInput, StatusBar,TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import styles from '../../styles/styles';
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 function RegisterScreen({navigation}) {
     //Logica del componente
-    const [name, onChangeName] = useState("Guildo");
-    const [email, onChangeEmail] = useState("Guildo@gmail.com");
+    const [name, onChangeName] = useState("Facundo");
+    const [email, onChangeEmail] = useState("facundo@gmail.com");
     const [password, onChangePass] = useState("12345678");
     const [password2, onChangePass2] = useState("12345678");
     const [edad, onChangeEdad] = useState('27');
    
     //Post register
     const peticion =()=>{
+      showMessage({
+        message: "Registrado",
+        // type: "info",
+        type: "success",
+
+      });
+
        let url = 'https://todolist-node-production.up.railway.app/user/register';
        
        var myHeaders = new Headers();
@@ -37,6 +45,24 @@ function RegisterScreen({navigation}) {
          .then(result => {
            console.log(result)
            console.log('registrado',name)
+           if(result.token){
+            showMessage({
+              message: "Registrado",
+              // type: "info",
+              type: "success",
+
+            });
+           }else{
+            console.log('no se registro')
+            showMessage({
+              message: "My message title",
+              description: "My message description",
+              type: "default",
+              backgroundColor: "purple", // background color
+              color: "#606060", // text color
+            });
+           }
+          
          })
          .catch(error => console.log('error', error));
     }
@@ -44,18 +70,20 @@ function RegisterScreen({navigation}) {
    
    
     return (
-     <SafeAreaView style={styles.conteiner}>
-   
-     <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
+      <SafeAreaView style={styles.conteiner}>
+
+      <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
+      <FlashMessage position="center" /> 
+  
      <View >
-     <Image
+     
+          <Image
                source={require('../../assets/elipse.png')}
                style={styles.circleImage}
            />
         <Text style={styles.textoWO2 }>Bienvenido!</Text>
    
         <Text style={{alignSelf:'center', margin:10, marginBottom:30}}>A continuación, completá tu registro.</Text>
-       
            <TextInput
                placeholder="             Enter your full name"
                
@@ -97,7 +125,7 @@ function RegisterScreen({navigation}) {
                onChangeText={onChangeEdad}
                value={edad}
                />
-   
+        
         <TouchableOpacity style={styles.buton}>
                    <Text 
                    style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 

@@ -8,7 +8,7 @@ import FlashMessage, { showMessage } from "react-native-flash-message";
 
 function LoginScreen({navigation}) {
 
-    const [name, onChangeText] = useState("muh.nurali43@gmail.com");
+    const [name, onChangeText] = useState("facundo@gmail.com");
     const [password, onChangePass] = useState("12345678");
     const [error1, onChangeError1] = useState(false);
     
@@ -46,6 +46,7 @@ function LoginScreen({navigation}) {
       showMessage({
         message: "Verificando",
         type: "info",
+        animationDuration: 40
         // type: "success",
       });
 
@@ -73,10 +74,15 @@ function LoginScreen({navigation}) {
               message: "Iniciando",
               // type: "info",
               type: "success",
-
+              animationDuration: 40
             });
+
             console.log('inicio bien la sesion')
-            navigation.navigate('ListaTarea')
+            
+            setTimeout(function(){
+              navigation.navigate('ListaTarea')
+          }, 1000);
+            
           }else{
             showMessage({
               message: "Error en Nombre de Usuario y/o Contraseña",

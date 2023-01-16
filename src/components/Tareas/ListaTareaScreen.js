@@ -153,14 +153,14 @@ function ListaTareaScreen({navigation}) {
             
 
 
-            <TouchableOpacity  style={styles.butonTareaEliminar}>
+            <TouchableOpacity onPress={()=> {
+                          PeticionEliminar(item._id)
+                       
+                        }} style={styles.butonTareaEliminar}>
                     <Image
                         source={require('../../assets/eliminar.png')}
                         style={{height:35 ,width:35}}
-                        onPress={()=> {
-                          PeticionEliminar(item._id)
-                       
-                        }}
+                        
                     />
                     
                     {/* <Text 
