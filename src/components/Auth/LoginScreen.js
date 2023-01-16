@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {  useEffect, useState } from 'react';
 import LocalStorage from '../../localStorage';
 import styles from '../../styles/styles';
-import FlashMessage from "react-native-flash-message";
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 function LoginScreen({navigation}) {
 
@@ -43,6 +43,12 @@ function LoginScreen({navigation}) {
   //Falta la validacion
     const peticion =()=>{
     
+      showMessage({
+        message: "Verificando",
+        type: "info",
+        // type: "success",
+      });
+
         let url = 'https://todolist-node-production.up.railway.app/user/login';
         let data = {
           email: name,
@@ -63,9 +69,21 @@ function LoginScreen({navigation}) {
           if(response.token){
             LocalStorage.setItem('token',token)
             console.log('token =', token)
+            showMessage({
+              message: "Iniciando",
+              // type: "info",
+              type: "success",
+
+            });
             console.log('inicio bien la sesion')
             navigation.navigate('ListaTarea')
           }else{
+            showMessage({
+              message: "Error en Nombre de Usuario y/o Contraseña",
+              // type: "info",
+              type: "err",
+
+            });
             console.log('No inicio la sesion')
 
           }
@@ -79,13 +97,13 @@ function LoginScreen({navigation}) {
     <SafeAreaView style={styles.conteiner}>
   
     <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
+    <FlashMessage position="center" /> 
     <View >
     <Image
               source={require('../../assets/elipse.png')}
               style={styles.circleImage}
           />
-          <FlashMessage position="top" /> {/* <--- here as the last component */}
-          <Text style={styles.textoWO2 }>Welcome Back!</Text>
+          <Text style={styles.textoWO2 }>ToDoList</Text>
   
      <View >
           <Image
@@ -118,7 +136,7 @@ function LoginScreen({navigation}) {
               value={password} 
               />
       </View>
-      <Text style={styles.textoWOblu } >Forget Password</Text>
+      <Text style={styles.textoWOblu } >Olvidaste Tu Contraseña?</Text>
       
   
      <TouchableOpacity style={styles.buton}>
@@ -126,10 +144,10 @@ function LoginScreen({navigation}) {
                   style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                   // onPress={() => navigation.navigate('Login')}
                   onPress={() => peticion()}
-                    >Login
+                    >Iniciar Sesión
                   </Text>
       </TouchableOpacity>
-     <Text style={{alignSelf:'center',margin:10}}>Don't have an account? <Text onPress={() => navigation.navigate('Register')} style={{color:'#5dc1b9'}}>Sign Up</Text></Text>
+     <Text style={{alignSelf:'center',margin:10}}>No tienes Cuenta? <Text onPress={() => navigation.navigate('Register')} style={{color:'#5dc1b9'}}>Registrarse</Text></Text>
    </View>
    </SafeAreaView>
   

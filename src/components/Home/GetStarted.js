@@ -19,18 +19,20 @@ function GetStarted({navigation}) {
               style={styles.image}
           />
         
-          <Text style={styles.textoWO }>Gets things done with TODo</Text>
+          <Text style={styles.textoWO }>Bienvenido a ToDoList</Text>
     
-          <Text style={styles.textoLets2 }>Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Magna in
-          Volutpat, tristique lacina ut.
-          Elementum non turpis nullam ipsum</Text>
-        
+          
+
+          <Text style={styles.textoLets2 }
+          >Añade tus tareas, Organiza tu vida.
+          Concéntrate, organízate y trae calma a tu vida con ToDoList. La aplicación de listas de pendientes y gestión de tareas n.º 1 del mundo
+          </Text>
+          
           <TouchableOpacity style={styles.buton}>
                   <Text 
                   style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                   onPress={() => navigation.navigate('Login')}
-                    >Get Started
+                    >Vamos!
                   </Text>
           </TouchableOpacity>
     

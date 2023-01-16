@@ -67,19 +67,21 @@ const styles = StyleSheet.create({
     },
     circleImage:{
       marginLeft: -100,
-      marginTop: -110
+      marginTop: -110,
+      
     },
     buton:{
       marginTop:30,
       width:350,
       height:60,
       borderRadius:25,
-      backgroundColor:'#5dc1b9',
+      // backgroundColor:'#5dc1b9',
+      backgroundColor:'#0053ff',
       alignSelf: 'center',
     },
     butonTarea:{
       marginTop:30,
-      width:300,
+      width:350,
       height:40,
       borderRadius:25,
       backgroundColor:'#ff6961',
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     },
     butonTareaCompletada:{
       marginTop:30,
-      width:300,
+      width:350,
       height:40,
       borderRadius:25,
       backgroundColor:'#77DD77',
