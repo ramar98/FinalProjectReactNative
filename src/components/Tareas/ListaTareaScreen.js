@@ -153,8 +153,10 @@ function ListaTareaScreen({navigation}) {
               <TouchableOpacity style={styles.buton}>
                       <Text 
                       style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                      onPress={() => peticion()}
-                        >Lista Tareas
+                      onPress={() => {
+                        console.log('boton Logout')
+                      } }
+                        >LorgOut
                       </Text>
               </TouchableOpacity>
               

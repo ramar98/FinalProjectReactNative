@@ -30,13 +30,20 @@ function LoginScreen({navigation}) {
         }).then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => {
-
+          
           let token = 'Bearer '+response.token
-  
-          LocalStorage.setItem('token',token)
-  
+          if(response.token){
+            LocalStorage.setItem('token',token)
+            console.log('token =', token)
+            console.log('inicio bien la sesion')
+            navigation.navigate('ListaTarea')
+          }else{
+            console.log('No inicio la sesion')
+
+          }
+          
         });
-         navigation.navigate('ListaTarea')
+         
         
     }
   

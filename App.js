@@ -1,4 +1,3 @@
-import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity, FlatList,RefreshControl, KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer }        from '@react-navigation/native';
 import { createBottomTabNavigator }   from '@react-navigation/bottom-tabs';
 
