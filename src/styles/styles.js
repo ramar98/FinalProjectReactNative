@@ -79,6 +79,16 @@ const styles = StyleSheet.create({
       backgroundColor:'#0053ff',
       alignSelf: 'center',
     },
+
+    butonguardar:{
+      marginTop:30,
+      width:350,
+      height:60,
+      borderRadius:25,
+      backgroundColor:'#81db74',
+      alignSelf: 'center',
+    },
+
     butonTarea:{
       marginTop:30,
       width:350,

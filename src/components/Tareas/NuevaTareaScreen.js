@@ -42,33 +42,37 @@ function NuevaTareaScreen({navigation}) {
       <SafeAreaView style={styles.conteiner}>
         <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
         <View >
+        
         <Image
               source={require('../../assets/elipse.png')}
               style={styles.circleImage}
           />
+
+        <Text style={styles.textoWO2 }>Crea una Nueva Tarea</Text>
+
         <TextInput
-              placeholder="             Agregar Tarea"
+              placeholder="Escribí aquí tu nueva tarea..."
               placeholderTextColor={'#585858'}
               style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
               
               onChangeText={setText}
               value={textoTarea} 
               />
-          <TouchableOpacity style={styles.buton}>
+          <TouchableOpacity style={styles.butonguardar}>
                   <Text 
-                  style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
+                  style={{textAlign:'center', margin:15 ,color:'white', fontSize:20}} 
                   onPress={() =>{
                     peticion()
                     
                   } }
-                    >Crear Tarea
+                    >Guardar Tarea
                   </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buton}>
                   <Text 
                   style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                   onPress={() => navigation.goBack()}
-                    >Atras
+                    >Volver
                   </Text>
           </TouchableOpacity>
     

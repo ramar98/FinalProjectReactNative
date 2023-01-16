@@ -85,6 +85,7 @@ function ModificarTareaScreen({navigation}) {
               source={require('../../assets/elipse.png')}
               style={styles.circleImage}
           />
+          <Text style={styles.textoWO2 }>Modificación de Tarea</Text>
         <TextInput
               placeholder="             Modificar Tarea"
               placeholderTextColor={'#585858'}
@@ -123,7 +124,7 @@ function ModificarTareaScreen({navigation}) {
           value={tareaCompletada}
           /> */}
 
-          <TouchableOpacity style={styles.buton}>
+          <TouchableOpacity style={styles.butonguardar}>
                   <Text 
                   style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                   onPress={() => {
@@ -132,14 +133,14 @@ function ModificarTareaScreen({navigation}) {
                     
                   }
                 }
-                    >Modificar Tarea
+                    >Guardar Modificación
                   </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.buton}>
                   <Text 
                   style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                   onPress={() => navigation.goBack()}
-                    >Atras
+                    >Volver
                   </Text>
           </TouchableOpacity>
     

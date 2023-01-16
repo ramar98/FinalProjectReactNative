@@ -110,7 +110,7 @@ function ListaTareaScreen({navigation}) {
           { item.completed ? 
           <TouchableOpacity style={styles.butonTareaCompletada}>
                     <Text 
-                    style={{textAlign:'center', margin:5, color:'black', fontSize:20}} 
+                    style={{textAlign:'left', margin:5, color:'black', fontSize:18}} 
                      onPress={() => {
                       //limpiamos localStorage
                       // LocalStorage.removeItem('descripcionTarea')
@@ -130,7 +130,7 @@ function ListaTareaScreen({navigation}) {
             </TouchableOpacity>:
                   <TouchableOpacity style={styles.butonTarea}>
                   <Text 
-                  style={{textAlign:'center', margin:5, color:'black', fontSize:20}} 
+                  style={{textAlign:'left', margin:5, color:'black', fontSize:18}} 
                   onPress={() => {
                     //limpiamos localStorage
                     // LocalStorage.removeItem('descripcionTarea')
@@ -156,7 +156,7 @@ function ListaTareaScreen({navigation}) {
             <TouchableOpacity  style={styles.butonTareaEliminar}>
                     <Image
                         source={require('../../assets/eliminar.png')}
-                        style={{height:40 ,width:40}}
+                        style={{height:35 ,width:35}}
                         onPress={()=> {
                           PeticionEliminar(item._id)
                        
@@ -191,7 +191,8 @@ function ListaTareaScreen({navigation}) {
     
             {/* lista de tareas ejemplo  */}
             
-            <Text style={styles.textoWO2 }>Tu Lista de Tarea</Text>
+            <Text style={styles.textoWO2 }>Lista de Tareas</Text>
+
             <View 
               style={{height:400}}
             >
@@ -214,7 +215,7 @@ function ListaTareaScreen({navigation}) {
               <Text 
                 style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                 onPress={() => navigation.navigate('NuevaTarea')}
-                  >Nueva tarea
+                  >Crear Nueva Tarea
                 </Text>
               </TouchableOpacity>
     
@@ -224,7 +225,7 @@ function ListaTareaScreen({navigation}) {
                       onPress={() => {
                         logOut()
                       } }
-                        >Cerrar Sesion
+                        >Cerrar Sesión
                       </Text>
               </TouchableOpacity>
               {/* <TouchableOpacity style={styles.buton}>

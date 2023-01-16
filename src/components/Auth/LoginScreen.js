@@ -136,7 +136,7 @@ function LoginScreen({navigation}) {
               value={password} 
               />
       </View>
-      <Text style={styles.textoWOblu } >Olvidaste Tu Contraseña?</Text>
+      <Text style={styles.textoWOblu } >¿Olvidaste tu Contraseña?</Text>
       
   
      <TouchableOpacity style={styles.buton}>
@@ -147,7 +147,7 @@ function LoginScreen({navigation}) {
                     >Iniciar Sesión
                   </Text>
       </TouchableOpacity>
-     <Text style={{alignSelf:'center',margin:10}}>No tienes Cuenta? <Text onPress={() => navigation.navigate('Register')} style={{color:'#5dc1b9'}}>Registrarse</Text></Text>
+     <Text style={{alignSelf:'center',margin:10}}>¿No tenés Cuenta? <Text onPress={() => navigation.navigate('Register')} style={{color:'#5dc1b9'}}>Registrate Aquí</Text></Text>
    </View>
    </SafeAreaView>
   

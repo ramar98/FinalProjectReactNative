@@ -52,9 +52,9 @@ function RegisterScreen({navigation}) {
                source={require('../../assets/elipse.png')}
                style={styles.circleImage}
            />
-        <Text style={styles.textoWO2 }>Welcome Onboard!</Text>
+        <Text style={styles.textoWO2 }>Bienvenido!</Text>
    
-        <Text style={{alignSelf:'center', margin:10, marginBottom:30}}>Let's help you meet up your tasks</Text>
+        <Text style={{alignSelf:'center', margin:10, marginBottom:30}}>A continuación, completá tu registro.</Text>
        
            <TextInput
                placeholder="             Enter your full name"
@@ -103,10 +103,10 @@ function RegisterScreen({navigation}) {
                    style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                    // onPress={() => navigation.navigate('Login')}
                    onPress={() => peticion() }
-                     >Register
+                     >Registrar
                    </Text>
        </TouchableOpacity>
-        <Text style={{alignSelf:'center',margin:10}}>Already have an account? <Text style={{color:'#5dc1b9'}}  onPress={() => navigation.navigate('Login')}>Sign In</Text></Text>
+        <Text style={{alignSelf:'center',margin:10}}>¿Ya tenés una cuenta? <Text style={{color:'#5dc1b9'}}  onPress={() => navigation.navigate('Login')}>Quiero iniciar sesión</Text></Text>
    
       </View>
       </SafeAreaView>
