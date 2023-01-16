@@ -33,6 +33,7 @@ function ListaTareaScreen({navigation}) {
                 //console.log('Peticion =',data)
                 //guardar en el LocalStorage
                 // LocalStorage.setItem('Tareas',data)
+                console.log( 'Tareas' , data)
                 setTareas(data)
               })
               .catch(error => console.log('error', error));
@@ -78,13 +79,36 @@ function ListaTareaScreen({navigation}) {
         .catch(error => console.log('error', error));
       }
     
+      //LogOut
+      const logOut = async()=>{
+        let token = await LocalStorage.getItem('token')
+        let myHeaders = new Headers();
+        myHeaders.append("Authorization", token)
+
+        let requestOptions = {
+          method: 'POST',
+          headers: myHeaders,
+          redirect: 'follow'
+        };
+
+        fetch("https://todolist-node-production.up.railway.app/user/logout", requestOptions)
+          .then(response => response.json())
+          .then(result => {
+            console.log(result)
+            LocalStorage.removeItem('token')
+            navigation.navigate('Login')
+          })
+          .catch(error => console.log('error', error));
+      }
     const renderItem = ({item}) => {
     
       return (
     
         <View >
           <View style={{flexDirection:'row'}} >
-          <TouchableOpacity style={styles.butonTarea}>
+          
+          { item.completed ? 
+          <TouchableOpacity style={styles.butonTareaCompletada}>
                     <Text 
                     style={{textAlign:'center', margin:5, color:'black', fontSize:20}} 
                      onPress={() => {
@@ -96,11 +120,39 @@ function ListaTareaScreen({navigation}) {
                       
                       LocalStorage.setItem('descripcionTarea',item.description) //guardamos el id de la tarea a modificar
                       
+                      console.log('completedTarea Listar'  ,item.completed)
+                      LocalStorage.setItem('completedTarea'  ,item.completed) //
+
                       navigation.navigate('ModificarTarea')
                      }}
                       >{item.description}
                     </Text>
-            </TouchableOpacity>
+            </TouchableOpacity>:
+                  <TouchableOpacity style={styles.butonTarea}>
+                  <Text 
+                  style={{textAlign:'center', margin:5, color:'black', fontSize:20}} 
+                  onPress={() => {
+                    //limpiamos localStorage
+                    // LocalStorage.removeItem('descripcionTarea')
+                    // LocalStorage.removeItem('idTarea')
+                    
+                    LocalStorage.setItem('idTarea',item._id) //guardamos el id de la tarea a modificar
+                    console.log('completedTarea Listar ='  ,item.completed)
+
+                    LocalStorage.setItem('descripcionTarea',item.description) //guardamos el id de la tarea a modificar
+                    LocalStorage.setItem('completedTarea'  ,item.completed)
+                    navigation.navigate('ModificarTarea')
+                  }}
+                    >{item.description}
+                  </Text>
+          </TouchableOpacity>
+            
+            }
+          
+            
+            
+
+
             <TouchableOpacity  style={styles.butonTareaEliminar}>
                     <Text 
                       style={{textAlign:'center', margin:5, color:'black', fontSize:20}}
@@ -135,7 +187,7 @@ function ListaTareaScreen({navigation}) {
             
             <Text style={styles.textoWO2 }>Tu Lista de Tarea</Text>
             <View 
-              style={{height:300}}
+              style={{height:400}}
             >
     
               <FlatList
@@ -150,15 +202,7 @@ function ListaTareaScreen({navigation}) {
             </View>
             <View>
     
-              <TouchableOpacity style={styles.buton}>
-                      <Text 
-                      style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
-                      onPress={() => {
-                        console.log('boton Logout')
-                      } }
-                        >LorgOut
-                      </Text>
-              </TouchableOpacity>
+              
               
               <TouchableOpacity style={styles.buton}>
               <Text 
@@ -169,6 +213,15 @@ function ListaTareaScreen({navigation}) {
               </TouchableOpacity>
     
               <TouchableOpacity style={styles.buton}>
+                      <Text 
+                      style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
+                      onPress={() => {
+                        logOut()
+                      } }
+                        >Cerrar Sesion
+                      </Text>
+              </TouchableOpacity>
+              {/* <TouchableOpacity style={styles.buton}>
               <Text 
                 style={{textAlign:'center', margin:15, color:'white', fontSize:20}} 
                 onPress={() => {
@@ -176,7 +229,7 @@ function ListaTareaScreen({navigation}) {
                 }}
                   >Atras
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               </View>
     
           </View>

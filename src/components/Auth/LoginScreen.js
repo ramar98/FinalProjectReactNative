@@ -1,10 +1,10 @@
 import { View, Text, Button, Image, StyleSheet, TextInput, StatusBar,TouchableOpacity,RefreshControl } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
 import LocalStorage from '../../localStorage';
 import styles from '../../styles/styles';
-
+import FlashMessage from "react-native-flash-message";
 
 function LoginScreen({navigation}) {
 
@@ -12,6 +12,34 @@ function LoginScreen({navigation}) {
     const [password, onChangePass] = useState("12345678");
     const [error1, onChangeError1] = useState(false);
     
+
+
+    //verificar si ya esta logeado
+    const verificaToken = async()=>{
+      console.log('verificando token')
+      
+      let token = await LocalStorage.getItem('token')
+      
+      console.log('verificando token =',token)
+      
+      if (token != null){
+        navigation.navigate('ListaTarea')
+      }
+    }
+    
+    let focusListener = null;
+    
+    focusListener = navigation.addListener('focus', () => {
+    
+      verificaToken()
+    
+    });
+
+    useEffect(() => {
+      verificaToken()
+    
+    }, [])
+
   //Falta la validacion
     const peticion =()=>{
     
@@ -56,6 +84,7 @@ function LoginScreen({navigation}) {
               source={require('../../assets/elipse.png')}
               style={styles.circleImage}
           />
+          <FlashMessage position="top" /> {/* <--- here as the last component */}
           <Text style={styles.textoWO2 }>Welcome Back!</Text>
   
      <View >

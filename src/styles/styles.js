@@ -82,7 +82,15 @@ const styles = StyleSheet.create({
       width:300,
       height:40,
       borderRadius:25,
-      backgroundColor:'#f0394d',
+      backgroundColor:'#ff6961',
+      alignSelf: 'center',
+    },
+    butonTareaCompletada:{
+      marginTop:30,
+      width:300,
+      height:40,
+      borderRadius:25,
+      backgroundColor:'#77DD77',
       alignSelf: 'center',
     },
     butonTareaEliminar:{
@@ -93,6 +101,16 @@ const styles = StyleSheet.create({
       // backgroundColor:'#f0394d',
       alignSelf: 'center',
     },
+    text:{
+      color:"#0097e6",
+      textDecorationLine: 'line-through',
+      fontSize:20
+      
+    },
+    otro:{
+      color:"#fbc531",
+      fontSize:20
+    }
   });
 
   export default styles;
