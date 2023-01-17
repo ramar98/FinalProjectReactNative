@@ -1,8 +1,7 @@
-import { View, Text, Button, Image, TextInput, StatusBar,TouchableOpacity } from 'react-native';
+import { View, Text, Button, Image, TextInput, StatusBar,TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import styles from '../../styles/styles';
-import FlashMessage, { showMessage } from "react-native-flash-message";
 
 function RegisterScreen({navigation}) {
     //Logica del componente
@@ -14,12 +13,13 @@ function RegisterScreen({navigation}) {
    
     //Post register
     const peticion =()=>{
-      showMessage({
-        message: "Registrado",
-        // type: "info",
-        type: "success",
-
-      });
+      if (password != password2){
+        Alert.alert('', 'Las Contraseñas no son iguales', [
+              
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ]);
+        return
+      }
 
        let url = 'https://todolist-node-production.up.railway.app/user/register';
        
@@ -44,23 +44,17 @@ function RegisterScreen({navigation}) {
          .then(response => response.json())
          .then(result => {
            console.log(result)
-           console.log('registrado',name)
+           
            if(result.token){
-            showMessage({
-              message: "Registrado",
-              // type: "info",
-              type: "success",
-
-            });
+            console.log('registrado',name)
+            navigation.navigate('Login')
+            
            }else{
             console.log('no se registro')
-            showMessage({
-              message: "My message title",
-              description: "My message description",
-              type: "default",
-              backgroundColor: "purple", // background color
-              color: "#606060", // text color
-            });
+            Alert.alert('', 'Este E-mail se encuentra registrado', [
+              
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ]);
            }
           
          })
@@ -73,7 +67,6 @@ function RegisterScreen({navigation}) {
       <SafeAreaView style={styles.conteiner}>
 
       <StatusBar translucent backgroundColor={'transparent'} barStyle={'dark-content'} />
-      <FlashMessage position="center" /> 
   
      <View >
      
@@ -83,12 +76,12 @@ function RegisterScreen({navigation}) {
            />
         <Text style={styles.textoWO2 }>Bienvenido!</Text>
    
-        <Text style={{alignSelf:'center', margin:10, marginBottom:30}}>A continuación, completá tu registro.</Text>
+        <Text style={{alignSelf:'center', paddingLeft:30, margin:10, marginBottom:30}}>A continuación, completá tu registro.</Text>
            <TextInput
                placeholder="             Enter your full name"
                
                placeholderTextColor={'#585858'}
-               style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+               style={{paddingLeft:30, margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
                
                onChangeText={onChangeName}
                value={name}
@@ -96,7 +89,7 @@ function RegisterScreen({navigation}) {
            <TextInput
                placeholder="             Enter mail"
                placeholderTextColor={'#585858'}
-               style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+               style={{paddingLeft:30, margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
                
                onChangeText={onChangeEmail}
                value={email}
@@ -104,7 +97,7 @@ function RegisterScreen({navigation}) {
            <TextInput
                placeholder="             Enter password"
                placeholderTextColor={'#585858'}
-               style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+               style={{paddingLeft:30, margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
                
                onChangeText={onChangePass}
                value={password}
@@ -112,7 +105,7 @@ function RegisterScreen({navigation}) {
            <TextInput
                placeholder="             Confirm password"
                placeholderTextColor={'#585858'}
-               style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+               style={{paddingLeft:30, margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
                
                onChangeText={onChangePass2}
                value={password2}
@@ -120,7 +113,7 @@ function RegisterScreen({navigation}) {
            <TextInput
                placeholder="             Edad"
                placeholderTextColor={'#585858'}
-               style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+               style={{paddingLeft:30, margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
                
                onChangeText={onChangeEdad}
                value={edad}
@@ -134,7 +127,7 @@ function RegisterScreen({navigation}) {
                      >Registrar
                    </Text>
        </TouchableOpacity>
-        <Text style={{alignSelf:'center',margin:10}}>¿Ya tenés una cuenta? <Text style={{color:'#5dc1b9'}}  onPress={() => navigation.navigate('Login')}>Quiero iniciar sesión</Text></Text>
+        <Text style={{alignSelf:'center',paddingLeft:30, margin:10}}>¿Ya tenés una cuenta? <Text style={{color:'#5dc1b9'}}  onPress={() => navigation.navigate('Login')}>Quiero iniciar sesión</Text></Text>
    
       </View>
       </SafeAreaView>

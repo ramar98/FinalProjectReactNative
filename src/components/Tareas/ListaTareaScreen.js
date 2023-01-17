@@ -110,7 +110,7 @@ function ListaTareaScreen({navigation}) {
           { item.completed ? 
           <TouchableOpacity style={styles.butonTareaCompletada}>
                     <Text 
-                    style={{textAlign:'left', margin:5, color:'black', fontSize:18}} 
+                    style={{paddingLeft:30,textAlign:'left', margin:5, color:'black', fontSize:18}} 
                      onPress={() => {
                       //limpiamos localStorage
                       // LocalStorage.removeItem('descripcionTarea')
@@ -130,7 +130,7 @@ function ListaTareaScreen({navigation}) {
             </TouchableOpacity>:
                   <TouchableOpacity style={styles.butonTarea}>
                   <Text 
-                  style={{textAlign:'left', margin:5, color:'black', fontSize:18}} 
+                  style={{paddingLeft:30,textAlign:'left', margin:5, color:'black', fontSize:18}} 
                   onPress={() => {
                     //limpiamos localStorage
                     // LocalStorage.removeItem('descripcionTarea')

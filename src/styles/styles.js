@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     },
     textoWOblu:{
       fontWeight:'bold',
-      color: '#5dc1b9',
-      fontSize: 15,
+      color: '#93c08c',
+      fontSize: 20,
       marginTop:30,
       alignSelf: 'center',
     },
@@ -66,9 +66,10 @@ const styles = StyleSheet.create({
       fontSize:16
     },
     circleImage:{
-      marginLeft: -100,
-      marginTop: -110,
-      
+      marginLeft: -50,
+      marginTop: -50,
+      height:200,
+      width:200
     },
     buton:{
       marginTop:30,

@@ -53,7 +53,7 @@ function NuevaTareaScreen({navigation}) {
         <TextInput
               placeholder="Escribí aquí tu nueva tarea..."
               placeholderTextColor={'#585858'}
-              style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+              style={{paddingLeft:30,margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
               
               onChangeText={setText}
               value={textoTarea} 

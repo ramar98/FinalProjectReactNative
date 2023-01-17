@@ -120,7 +120,7 @@ function LoginScreen({navigation}) {
           <TextInput
               placeholder="             Enter your e-mail"
               placeholderTextColor={'#585858'}
-              style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+              style={{paddingLeft:30,margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
               
               onChangeText={onChangeText}
               value={name}
@@ -136,7 +136,7 @@ function LoginScreen({navigation}) {
               placeholder="              Confirm password"
               // value='12345678'
               placeholderTextColor={'#585858'}
-              style={{margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
+              style={{paddingLeft:30, margin:10, width:350, height: 50, backgroundColor:'white', borderRadius:30, alignSelf: 'center',}}
               
               onChangeText={onChangePass}
               value={password} 
@@ -153,7 +153,7 @@ function LoginScreen({navigation}) {
                     >Iniciar Sesión
                   </Text>
       </TouchableOpacity>
-     <Text style={{alignSelf:'center',margin:10}}>¿No tenés Cuenta? <Text onPress={() => navigation.navigate('Register')} style={{color:'#5dc1b9'}}>Registrate Aquí</Text></Text>
+     <Text style={{alignSelf:'center',margin:10,fontSize:15}}>¿No tenés Cuenta? <Text onPress={() => navigation.navigate('Register')} style={{color:'#93c08c'}}>Registrate Aquí</Text></Text>
    </View>
    </SafeAreaView>
   
